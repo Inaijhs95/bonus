@@ -21,7 +21,7 @@
             position: absolute;
             width: 150px;
             height: 150px;
-            background-image: url('https://via.placeholder.com/150.jpg');
+            background-image: url('');
             background-size: cover;
             cursor: pointer;
             transition: transform 0.2s;
@@ -98,11 +98,27 @@
         const accessC = localStorage.getItem('access_CCC') === 'true';
         const accessD = localStorage.getItem('access_D') === 'true';
 
-        // アクセス済みの石板を表示
-        if (accessA) document.getElementById('stoneA').style.display = 'block';
-        if (accessB) document.getElementById('stoneB').style.display = 'block';
-        if (accessC) document.getElementById('stoneC').style.display = 'block';
-        if (accessD) document.getElementById('stoneD').style.display = 'block';
+        // アクセス済みの石板に画像を設定して表示
+        if (accessA) {
+            const stoneA = document.getElementById('stoneA');
+            stoneA.style.display = 'block';
+            stoneA.style.backgroundImage = "url('riopg.png')";
+        }
+        if (accessB) {
+            const stoneB = document.getElementById('stoneB');
+            stoneB.style.display = 'block';
+            stoneB.style.backgroundImage = "url('riopg.png')";
+        }
+        if (accessC) {
+            const stoneC = document.getElementById('stoneC');
+            stoneC.style.display = 'block';
+            stoneC.style.backgroundImage = "url('riopg.png')";
+        }
+        if (accessD) {
+            const stoneD = document.getElementById('stoneD');
+            stoneD.style.display = 'block';
+            stoneD.style.backgroundImage = "url('riopg.png')";
+        }
 
         // すべての石板が表示された場合、隠しリンクを表示
         if (accessA && accessB && accessC && accessD) {
@@ -119,3 +135,4 @@
 
 </body>
 </html>
+
