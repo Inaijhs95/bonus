@@ -6,87 +6,92 @@
     <title>ボーナスページ</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(135deg, #4f83cc, #a1c4fd);
-            color: #fff;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
             text-align: center;
-            padding: 20px;
+            padding: 40px;
         }
         h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
+            color: #00bfa6;
+            margin-bottom: 20px;
         }
         p {
-            font-size: 1.2em;
+            font-size: 1.1em;
+            color: #bbb;
+            margin-bottom: 40px;
         }
         .status {
             display: flex;
             justify-content: center;
             gap: 20px;
             flex-wrap: wrap;
-            margin-top: 30px;
         }
         .status-item {
-            padding: 15px 25px;
-            border: 3px solid #ddd;
-            border-radius: 15px;
-            font-size: 1.2em;
-            width: 180px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s;
+            padding: 12px 20px;
+            border: 1px solid #444;
+            border-radius: 12px;
+            font-size: 1em;
+            width: 160px;
+            background: #1c1c1c;
+            color: #888;
+            transition: all 0.2s ease;
         }
         .completed {
-            background: #00c851;
+            background: #00796b;
             color: #fff;
-            border-color: #00c851;
-            transform: scale(1.1);
-        }
-        .pending {
-            background: #ff4444;
-            color: #fff;
-            border-color: #ff4444;
+            border-color: #00796b;
         }
         .hidden {
             display: none;
         }
         .link {
-            font-size: 1.5em;
-            color: #ffeb3b;
-            text-decoration: underline;
+            display: inline-block;
+            font-size: 1.2em;
+            padding: 12px 24px;
+            color: #121212;
+            background-color: #00bfa6;
+            border-radius: 6px;
             margin-top: 30px;
-            animation: fadeIn 1s ease-in-out;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .link:hover {
+            background-color: #00e676;
         }
         .message {
-            font-size: 1.3em;
+            font-size: 1.2em;
             margin-top: 20px;
-            color: #ffeb3b;
-            animation: fadeIn 1s ease-in-out;
+            color: #00e676;
+            opacity: 0;
+            animation: fadeIn 0.5s forwards;
         }
         @keyframes fadeIn {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
 <body>
 
-<h1>🎉 ボーナスページ 🎉</h1>
+<h1>ボーナスページ</h1>
 <p>4つのアクションを完了すると、特別なリンクが現れます。</p>
 
 <div class="status">
-    <div id="statusA" class="status-item pending">アクション 1: 未完了</div>
-    <div id="statusBB" class="status-item pending">アクション 2: 未完了</div>
-    <div id="statusCCC" class="status-item pending">アクション 3: 未完了</div>
-    <div id="statusD" class="status-item pending">アクション 4: 未完了</div>
+    <div id="statusA" class="status-item">アクション 1: 未完了</div>
+    <div id="statusBB" class="status-item">アクション 2: 未完了</div>
+    <div id="statusCCC" class="status-item">アクション 3: 未完了</div>
+    <div id="statusD" class="status-item">アクション 4: 未完了</div>
 </div>
 
 <div id="bonusLink" class="hidden">
-    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F" class="link">💎 ボーナスリンクはこちら 💎</a>
+    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus" class="link">ボーナスリンクを解放</a>
 </div>
 
 <div id="completionMessage" class="message hidden">
-    おめでとうございます！すべてのアクションが完了しました。
+    🎉 すべてのアクションが完了しました！
 </div>
 
 <script>
@@ -99,22 +104,22 @@
     // アクセス状況に応じて表示を更新
     if (accessA) {
         document.getElementById("statusA").textContent = "アクション 1: 達成";
-        document.getElementById("statusA").classList.replace("pending", "completed");
+        document.getElementById("statusA").classList.add("completed");
     }
 
     if (accessBB) {
         document.getElementById("statusBB").textContent = "アクション 2: 達成";
-        document.getElementById("statusBB").classList.replace("pending", "completed");
+        document.getElementById("statusBB").classList.add("completed");
     }
 
     if (accessCCC) {
         document.getElementById("statusCCC").textContent = "アクション 3: 達成";
-        document.getElementById("statusCCC").classList.replace("pending", "completed");
+        document.getElementById("statusCCC").classList.add("completed");
     }
 
     if (accessD) {
         document.getElementById("statusD").textContent = "アクション 4: 達成";
-        document.getElementById("statusD").classList.replace("pending", "completed");
+        document.getElementById("statusD").classList.add("completed");
     }
 
     // すべてのアクションが完了した場合、リンクとメッセージを表示
