@@ -34,11 +34,14 @@
     const laserLeft = new THREE.Mesh(laserGeometry, laserMaterial);
     const laserRight = new THREE.Mesh(laserGeometry, laserMaterial);
 
-    // レーザーの初期位置
+    // レーザーの初期位置と回転
     laserUp.position.set(0, 3, 0);
     laserDown.position.set(0, -3, 0);
     laserLeft.position.set(-3, 0, 0);
     laserRight.position.set(3, 0, 0);
+
+    laserLeft.rotation.z = Math.PI / 2; // 左レーザーを90度回転
+    laserRight.rotation.z = Math.PI / 2; // 右レーザーを90度回転
 
     // レーザーをシーンに追加
     scene.add(laserUp, laserDown, laserLeft, laserRight);
@@ -71,17 +74,23 @@
         laserLeft.position.x += laserSpeed;
         laserRight.position.x -= laserSpeed;
 
-        // レーザーが中央でぶつかると衝撃波を表示
+        // レーザーが中央でぶつかると衝撃波を表示し、レーザーを消す
         if (!shockwaveActive && laserUp.position.y <= 0) {
             shockwave.visible = true;
             shockwave.scale.set(0.1, 0.1, 1);
             shockwaveActive = true;
+
+            // レーザーを非表示にする
+            laserUp.visible = false;
+            laserDown.visible = false;
+            laserLeft.visible = false;
+            laserRight.visible = false;
         }
 
         // 衝撃波のアニメーション
         if (shockwaveActive) {
-            shockwave.scale.x += 0.1;
-            shockwave.scale.y += 0.1;
+            shockwave.scale.x += 0.2;
+            shockwave.scale.y += 0.2;
             shockwave.material.opacity -= 0.02;
 
             // 衝撃波が消えるタイミング
