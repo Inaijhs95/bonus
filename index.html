@@ -33,24 +33,30 @@
         #stoneC { top: 50%; left: 0; transform: translateY(-50%); }
         #stoneD { top: 50%; right: 0; transform: translateY(-50%); }
 
-        .beam {
+        .beam-particle {
             position: absolute;
-            width: 20px;
-            height: 20px;
+            width: 10px;
+            height: 10px;
             background: rgba(255, 255, 100, 0.8);
             border-radius: 50%;
             opacity: 0;
             z-index: 0;
-            animation-fill-mode: forwards; /* アニメーション完了後もスタイルを維持 */
+            animation: moveParticle 2s infinite;
         }
-        @keyframes moveToCenter {
+
+        @keyframes moveParticle {
             0% { opacity: 1; transform: scale(1); }
-            100% { transform: translate(-50%, -50%) scale(0.1); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(0.2); opacity: 0; }
         }
-        #beamA { top: 75px; left: 50%; transform: translateX(-50%); }
-        #beamB { bottom: 75px; left: 50%; transform: translateX(-50%); }
-        #beamC { top: 50%; left: 75px; transform: translateY(-50%); }
-        #beamD { top: 50%; right: 75px; transform: translateY(-50%); }
+
+        #particleA1 { top: 75px; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        #particleA2 { top: 75px; left: 50%; transform: translateX(-50%); animation-delay: 0.2s; }
+        #particleB1 { bottom: 75px; left: 50%; transform: translateX(-50%); animation-delay: 0s; }
+        #particleB2 { bottom: 75px; left: 50%; transform: translateX(-50%); animation-delay: 0.2s; }
+        #particleC1 { top: 50%; left: 75px; transform: translateY(-50%); animation-delay: 0s; }
+        #particleC2 { top: 50%; left: 75px; transform: translateY(-50%); animation-delay: 0.2s; }
+        #particleD1 { top: 50%; right: 75px; transform: translateY(-50%); animation-delay: 0s; }
+        #particleD2 { top: 50%; right: 75px; transform: translateY(-50%); animation-delay: 0.2s; }
 
         .hidden-link {
             position: absolute;
@@ -72,11 +78,15 @@
     <div id="stoneC" class="stone"></div>
     <div id="stoneD" class="stone"></div>
 
-    <!-- 光のビームエフェクト -->
-    <div id="beamA" class="beam"></div>
-    <div id="beamB" class="beam"></div>
-    <div id="beamC" class="beam"></div>
-    <div id="beamD" class="beam"></div>
+    <!-- 複数の粒エフェクト -->
+    <div id="particleA1" class="beam-particle"></div>
+    <div id="particleA2" class="beam-particle"></div>
+    <div id="particleB1" class="beam-particle"></div>
+    <div id="particleB2" class="beam-particle"></div>
+    <div id="particleC1" class="beam-particle"></div>
+    <div id="particleC2" class="beam-particle"></div>
+    <div id="particleD1" class="beam-particle"></div>
+    <div id="particleD2" class="beam-particle"></div>
 
     <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
 </div>
@@ -112,20 +122,12 @@
         if (accessC) document.getElementById('stoneC').style.display = 'block';
         if (accessD) document.getElementById('stoneD').style.display = 'block';
 
-        // すべての石板が表示された場合、ビームエフェクトを開始
+        // すべての石板が表示された場合、粒のアニメーションを開始
         if (accessA && accessB && accessC && accessD) {
-            startBeamAnimation();
+            document.querySelectorAll('.beam-particle').forEach(particle => {
+                particle.style.opacity = '1';
+            });
         }
-    }
-
-    // ビームエフェクトのアニメーションを開始
-    function startBeamAnimation() {
-        const beams = ['beamA', 'beamB', 'beamC', 'beamD'];
-        beams.forEach(beam => {
-            const element = document.getElementById(beam);
-            element.style.opacity = '1';
-            element.style.animation = 'moveToCenter 2s forwards';
-        });
     }
 
     // ページ読み込み時にクエリパラメータを確認してアクセスを記録
