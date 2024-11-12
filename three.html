@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Three.js Experiment</title>
+    <title>Three.js Debug Test</title>
     <style>
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #f0f0f0; /* 背景色を明るく設定 */
+            background-color: #e0e0e0; /* 背景色を明るく設定 */
         }
     </style>
 </head>
@@ -16,29 +16,27 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r152/three.min.js"></script>
 <script>
-    // シーン、カメラ、レンダラーを作成
+    // シーン、カメラ、レンダラーのセットアップ
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 背景色を設定
-    renderer.setClearColor(0xf0f0f0);
+    // 背景色の設定
+    renderer.setClearColor(0xe0e0e0);
 
-    // 球体オブジェクトの作成
+    // 球体オブジェクトの作成 (MeshNormalMaterial)
     const geometry = new THREE.SphereGeometry(1, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+    const material = new THREE.MeshNormalMaterial();
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // カメラの位置を調整
-    camera.position.z = 3;
+    // カメラ位置を調整
+    camera.position.set(0, 0, 5);
 
-    // ライトを追加
-    const light = new THREE.PointLight(0xffffff, 1);
-    light.position.set(5, 5, 5);
-    scene.add(light);
+    // デバッグログ
+    console.log("シーンに追加されたオブジェクト:", scene.children);
 
     // アニメーション関数
     function animate() {
