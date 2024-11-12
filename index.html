@@ -7,20 +7,20 @@
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #121212;
+            background-color: #1a1a1a;
             color: #e0e0e0;
             text-align: center;
             padding: 40px;
         }
         h1 {
-            font-size: 2.5em;
-            color: #00bfa6;
+            font-size: 2.8em;
+            color: #ffab40;
             margin-bottom: 20px;
         }
         p {
-            font-size: 1.1em;
+            font-size: 1.2em;
             color: #bbb;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
         .status {
             display: flex;
@@ -29,41 +29,43 @@
             flex-wrap: wrap;
         }
         .status-item {
-            padding: 12px 20px;
-            border: 1px solid #444;
+            padding: 15px 25px;
+            border: 1px solid #555;
             border-radius: 12px;
             font-size: 1em;
-            width: 160px;
-            background: #1c1c1c;
-            color: #888;
-            transition: all 0.2s ease;
+            width: 180px;
+            background: #2b2b2b;
+            color: #999;
+            transition: all 0.2s ease-in-out;
         }
         .completed {
-            background: #00796b;
+            background: #29b6f6;
             color: #fff;
-            border-color: #00796b;
+            border-color: #29b6f6;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(41, 182, 246, 0.6);
         }
         .hidden {
             display: none;
         }
         .link {
             display: inline-block;
-            font-size: 1.2em;
-            padding: 12px 24px;
-            color: #121212;
-            background-color: #00bfa6;
-            border-radius: 6px;
+            font-size: 1.4em;
+            padding: 12px 20px;
+            color: #1a1a1a;
+            background-color: #ffab40;
+            border-radius: 8px;
             margin-top: 30px;
             text-decoration: none;
-            transition: background-color 0.2s;
+            transition: background-color 0.2s ease;
         }
         .link:hover {
-            background-color: #00e676;
+            background-color: #ff7043;
         }
         .message {
-            font-size: 1.2em;
+            font-size: 1.3em;
             margin-top: 20px;
-            color: #00e676;
+            color: #ff7043;
             opacity: 0;
             animation: fadeIn 0.5s forwards;
         }
@@ -87,11 +89,11 @@
 </div>
 
 <div id="bonusLink" class="hidden">
-    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus" class="link">ボーナスリンクを解放</a>
+    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F" class="link">ボーナスリンクはこちら</a>
 </div>
 
 <div id="completionMessage" class="message hidden">
-    🎉 すべてのアクションが完了しました！
+    🎉 すべてのアクションが完了しました！ 🎉
 </div>
 
 <script>
@@ -101,24 +103,27 @@
     const accessCCC = localStorage.getItem("access_CCC") === "true";
     const accessD = localStorage.getItem("access_D") === "true";
 
-    // アクセス状況に応じて表示を更新
+    // アクション 1 の更新
     if (accessA) {
-        document.getElementById("statusA").textContent = "アクション 1: 達成";
+        document.getElementById("statusA").textContent = "systemError : 達成";
         document.getElementById("statusA").classList.add("completed");
     }
 
+    // アクション 2 の更新
     if (accessBB) {
-        document.getElementById("statusBB").textContent = "アクション 2: 達成";
+        document.getElementById("statusBB").textContent = "BrandSale : 達成";
         document.getElementById("statusBB").classList.add("completed");
     }
 
+    // アクション 3 の更新
     if (accessCCC) {
-        document.getElementById("statusCCC").textContent = "アクション 3: 達成";
+        document.getElementById("statusCCC").textContent = "300K Campaign : 達成";
         document.getElementById("statusCCC").classList.add("completed");
     }
 
+    // アクション 4 の更新
     if (accessD) {
-        document.getElementById("statusD").textContent = "アクション 4: 達成";
+        document.getElementById("statusD").textContent = "Horse Racing Predictions: 達成";
         document.getElementById("statusD").classList.add("completed");
     }
 
