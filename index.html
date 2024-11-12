@@ -3,92 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>競馬予想サイト - 的中率100％！</title>
+    <title>ボーナスページ</title>
     <style>
         body {
-            background-color: #f8f8f8;
             font-family: Arial, sans-serif;
-            color: #333;
-            margin: 0;
-            padding: 0;
+            text-align: center;
+            padding: 20px;
         }
-        .header {
+        .status {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .status-item {
+            padding: 10px 20px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            font-size: 18px;
+            width: 150px;
+        }
+        .collected {
             background-color: #4caf50;
             color: #fff;
-            text-align: center;
-            padding: 20px;
+            border-color: #4caf50;
         }
-        .main {
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-        }
-        h1 {
-            font-size: 30px;
-            color: #4caf50;
-            text-align: center;
-        }
-        .description {
-            font-size: 18px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .cta-button {
-            display: block;
-            width: 80%;
-            max-width: 300px;
-            margin: 20px auto;
-            padding: 15px;
-            font-size: 20px;
+        .missing {
+            background-color: #f44336;
             color: #fff;
-            background-color: #ff5722;
-            text-align: center;
-            border-radius: 8px;
-            text-decoration: none;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+            border-color: #f44336;
         }
-        .cta-button:hover {
-            background-color: #e64a19;
+        .hidden {
+            display: none;
         }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 14px;
-            color: #777;
-        }
-        .footer a {
-            color: #4caf50;
-            text-decoration: none;
+        .link {
+            font-size: 20px;
+            color: #007bff;
+            text-decoration: underline;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h2>競馬予想サイト - プロが選ぶ的中率100％予想</h2>
-    </div>
+<h1>ボーナスページ</h1>
+<p>4つのページからのアクセスが揃うとリンクが表示されます。</p>
 
-    <div class="main">
-        <h1>的中率100％！<br>プロの競馬予想を公開中</h1>
-        <p class="description">
-            今週末のレースに向けて、最新の競馬予想を無料公開！<br>プロの分析とデータに基づいた予想を今すぐチェック！
-        </p>
+<div class="status">
+    <div id="statusA" class="status-item missing">A: 未確認</div>
+    <div id="statusBB" class="status-item missing">BB: 未確認</div>
+    <div id="statusCCC" class="status-item missing">CCC: 未確認</div>
+    <div id="statusD" class="status-item missing">D: 未確認</div>
+</div>
 
-        <a href="https://inaijhs95.my.canva.site/secret2025" class="cta-button" onclick="recordAccess()">無料で予想を見る</a>
-    </div>
+<div id="bonusLink" class="hidden">
+    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F" class="link">ボーナスリンクはこちら</a>
+</div>
 
-    <div class="footer">
-        <p>© 2024 競馬予想サイト | <a href="https://inaijhs95.my.canva.site/secret2025">プライバシーポリシー</a></p>
-    </div>
+<script>
+    // 各ページからのアクセス状況を確認
+    const accessA = localStorage.getItem("access_A") === "true";
+    const accessBB = localStorage.getItem("access_BB") === "true";
+    const accessCCC = localStorage.getItem("access_CCC") === "true";
+    const accessD = localStorage.getItem("access_D") === "true";
 
-    <script>
-        // アクセス確認のためにフラグを設定
-        function recordAccess() {
-            localStorage.setItem("access_D", "true");
-        }
-    </script>
+    // アクセス状況に応じて表示を更新
+    if (accessA) {
+        document.getElementById("statusA").textContent = "A: 確認済み";
+        document.getElementById("statusA").classList.replace("missing", "collected");
+    }
+
+    if (accessBB) {
+        document.getElementById("statusBB").textContent = "BB: 確認済み";
+        document.getElementById("statusBB").classList.replace("missing", "collected");
+    }
+
+    if (accessCCC) {
+        document.getElementById("statusCCC").textContent = "CCC: 確認済み";
+        document.getElementById("statusCCC").classList.replace("missing", "collected");
+    }
+
+    if (accessD) {
+        document.getElementById("statusD").textContent = "D: 確認済み";
+        document.getElementById("statusD").classList.replace("missing", "collected");
+    }
+
+    // 全てのページからのアクセスが確認された場合、リンクを表示
+    if (accessA && accessBB && accessCCC && accessD) {
+        document.getElementById("bonusLink").classList.remove("hidden");
+    }
+</script>
+
 </body>
 </html>
