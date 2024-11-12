@@ -34,21 +34,32 @@
 
         .beam {
             position: absolute;
-            width: 10px;
-            height: 10px;
+            width: 20px;
+            height: 20px;
             background: rgba(255, 255, 100, 0.8);
             border-radius: 50%;
             opacity: 0;
-            z-index: -2;
+            z-index: -1;
         }
         @keyframes moveToCenter {
-            0% { opacity: 1; }
-            100% { transform: translate(-50%, -50%); opacity: 0; }
+            0% { opacity: 1; transform: scale(1); }
+            100% { transform: translate(-50%, -50%) scale(0.1); opacity: 0; }
         }
         #beamA { top: 75px; left: 50%; transform: translateX(-50%); }
         #beamB { bottom: 75px; left: 50%; transform: translateX(-50%); }
         #beamC { top: 50%; left: 75px; transform: translateY(-50%); }
         #beamD { top: 50%; right: 75px; transform: translateY(-50%); }
+
+        .hidden-link {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100px;
+            height: 100px;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            background-color: rgba(0, 0, 0, 0); /* 見えないがタップ可能 */
+        }
     </style>
 </head>
 <body>
@@ -65,7 +76,7 @@
     <div id="beamC" class="beam"></div>
     <div id="beamD" class="beam"></div>
 
-    <a id="hiddenLink" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
+    <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
 </div>
 
 <script>
@@ -111,7 +122,7 @@
         beams.forEach(beam => {
             const element = document.getElementById(beam);
             element.style.opacity = '1';
-            element.style.animation = 'moveToCenter 1s forwards';
+            element.style.animation = 'moveToCenter 1.5s forwards';
         });
     }
 
