@@ -21,10 +21,11 @@
             position: absolute;
             width: 150px;
             height: 150px;
-            background-image: url('riopg.png');
+            background-image: url('https://via.placeholder.com/150.jpg');
             background-size: cover;
             cursor: pointer;
             transition: transform 0.2s;
+            display: none; /* 初期状態は非表示 */
         }
         .stone:hover {
             transform: scale(1.1);
@@ -64,36 +65,36 @@
 <body>
 
 <div class="container">
-    <div id="stoneA" class="stone" onclick="markLinkAccessed('access_A')"></div>
-    <div id="stoneB" class="stone" onclick="markLinkAccessed('access_BB')"></div>
-    <div id="stoneC" class="stone" onclick="markLinkAccessed('access_CCC')"></div>
-    <div id="stoneD" class="stone" onclick="markLinkAccessed('access_D')"></div>
+    <div id="stoneA" class="stone"></div>
+    <div id="stoneB" class="stone"></div>
+    <div id="stoneC" class="stone"></div>
+    <div id="stoneD" class="stone"></div>
 
     <a id="hiddenLink" class="hidden-link" href="https://inaijhs95.github.io/bonus">隠しリンクはこちら</a>
 </div>
 
 <script>
-    // 石板のクリック状況をローカルストレージに保存
-    function markLinkAccessed(key) {
-        localStorage.setItem(key, 'true');
-        alert(`${key} が記録されました！`);
-        checkAllAccess();
-    }
-
-    // すべての石板がクリックされた場合、隠しリンクを表示
-    function checkAllAccess() {
+    // 石板の表示状態を確認
+    function checkStoneVisibility() {
         const accessA = localStorage.getItem('access_A') === 'true';
-        const accessBB = localStorage.getItem('access_BB') === 'true';
-        const accessCCC = localStorage.getItem('access_CCC') === 'true';
+        const accessB = localStorage.getItem('access_BB') === 'true';
+        const accessC = localStorage.getItem('access_CCC') === 'true';
         const accessD = localStorage.getItem('access_D') === 'true';
 
-        if (accessA && accessBB && accessCCC && accessD) {
+        // アクセス済みの石板を表示
+        if (accessA) document.getElementById('stoneA').style.display = 'block';
+        if (accessB) document.getElementById('stoneB').style.display = 'block';
+        if (accessC) document.getElementById('stoneC').style.display = 'block';
+        if (accessD) document.getElementById('stoneD').style.display = 'block';
+
+        // すべての石板が表示された場合、隠しリンクを表示
+        if (accessA && accessB && accessC && accessD) {
             document.getElementById('hiddenLink').style.display = 'block';
         }
     }
 
-    // ページ読み込み時にアクセス状況を確認
-    checkAllAccess();
+    // ページ読み込み時に石板の表示状態を確認
+    checkStoneVisibility();
 </script>
 
 </body>
