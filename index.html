@@ -27,67 +27,28 @@
             cursor: pointer;
             display: none;
         }
-        #stoneA {
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        #stoneB {
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        #stoneC {
-            top: 50%;
-            left: 0;
-            transform: translateY(-50%);
-        }
-        #stoneD {
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-        }
-        .light-background {
+        #stoneA { top: 0; left: 50%; transform: translateX(-50%); }
+        #stoneB { bottom: 0; left: 50%; transform: translateX(-50%); }
+        #stoneC { top: 50%; left: 0; transform: translateY(-50%); }
+        #stoneD { top: 50%; right: 0; transform: translateY(-50%); }
+
+        .beam {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200px;
-            height: 200px;
-            background: radial-gradient(circle, rgba(255, 255, 100, 0) 40%, rgba(255, 255, 100, 0.8) 70%, rgba(255, 255, 100, 0) 100%);
+            width: 10px;
+            height: 10px;
+            background: rgba(255, 255, 100, 0.8);
+            border-radius: 50%;
             opacity: 0;
-            transform: translate(-50%, -50%);
-            transition: opacity 1s ease;
-            z-index: -1;
-        }
-        .light-ray {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, rgba(255, 255, 255, 0) 70%);
-            opacity: 0;
-            transform: translate(-50%, -50%) rotate(0deg);
-            animation: rotateRay 5s infinite linear;
             z-index: -2;
         }
-        @keyframes rotateRay {
-            from {
-                transform: translate(-50%, -50%) rotate(0deg);
-            }
-            to {
-                transform: translate(-50%, -50%) rotate(360deg);
-            }
+        @keyframes moveToCenter {
+            0% { opacity: 1; }
+            100% { transform: translate(-50%, -50%); opacity: 0; }
         }
-        .hidden-link {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1em;
-            color: rgba(0, 0, 0, 0); /* 完全に透過 */
-            text-decoration: none;
-        }
+        #beamA { top: 75px; left: 50%; transform: translateX(-50%); }
+        #beamB { bottom: 75px; left: 50%; transform: translateX(-50%); }
+        #beamC { top: 50%; left: 75px; transform: translateY(-50%); }
+        #beamD { top: 50%; right: 75px; transform: translateY(-50%); }
     </style>
 </head>
 <body>
@@ -98,13 +59,13 @@
     <div id="stoneC" class="stone"></div>
     <div id="stoneD" class="stone"></div>
 
-    <!-- 光の背景エフェクト -->
-    <div id="lightBackground" class="light-background"></div>
+    <!-- 光のビームエフェクト -->
+    <div id="beamA" class="beam"></div>
+    <div id="beamB" class="beam"></div>
+    <div id="beamC" class="beam"></div>
+    <div id="beamD" class="beam"></div>
 
-    <!-- 光の放射エフェクト -->
-    <div id="lightRay" class="light-ray"></div>
-
-    <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F">隠しリンク</a>
+    <a id="hiddenLink" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
 </div>
 
 <script>
@@ -138,11 +99,20 @@
         if (accessC) document.getElementById('stoneC').style.display = 'block';
         if (accessD) document.getElementById('stoneD').style.display = 'block';
 
-        // すべての石板が表示された場合、光のエフェクトを表示
+        // すべての石板が表示された場合、ビームエフェクトを開始
         if (accessA && accessB && accessC && accessD) {
-            document.getElementById('lightBackground').style.opacity = '1';
-            document.getElementById('lightRay').style.opacity = '0.6';
+            startBeamAnimation();
         }
+    }
+
+    // ビームエフェクトのアニメーションを開始
+    function startBeamAnimation() {
+        const beams = ['beamA', 'beamB', 'beamC', 'beamD'];
+        beams.forEach(beam => {
+            const element = document.getElementById(beam);
+            element.style.opacity = '1';
+            element.style.animation = 'moveToCenter 1s forwards';
+        });
     }
 
     // ページ読み込み時にクエリパラメータを確認してアクセスを記録
