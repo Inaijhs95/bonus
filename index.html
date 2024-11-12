@@ -21,14 +21,14 @@
             border: 2px solid #ccc;
             border-radius: 10px;
             font-size: 18px;
-            width: 150px;
+            width: 160px;
         }
-        .collected {
+        .completed {
             background-color: #4caf50;
             color: #fff;
             border-color: #4caf50;
         }
-        .missing {
+        .pending {
             background-color: #f44336;
             color: #fff;
             border-color: #f44336;
@@ -42,22 +42,31 @@
             text-decoration: underline;
             margin-top: 20px;
         }
+        .message {
+            font-size: 18px;
+            margin-top: 20px;
+            color: #555;
+        }
     </style>
 </head>
 <body>
 
 <h1>ボーナスページ</h1>
-<p>4つのページからのアクセスが揃うとリンクが表示されます。</p>
+<p>4つのアクションを完了すると、特別なリンクが現れます。</p>
 
 <div class="status">
-    <div id="statusA" class="status-item missing">A: 未確認</div>
-    <div id="statusBB" class="status-item missing">BB: 未確認</div>
-    <div id="statusCCC" class="status-item missing">CCC: 未確認</div>
-    <div id="statusD" class="status-item missing">D: 未確認</div>
+    <div id="statusA" class="status-item pending">アクション 1: 未完了</div>
+    <div id="statusBB" class="status-item pending">アクション 2: 未完了</div>
+    <div id="statusCCC" class="status-item pending">アクション 3: 未完了</div>
+    <div id="statusD" class="status-item pending">アクション 4: 未完了</div>
 </div>
 
 <div id="bonusLink" class="hidden">
     <a href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F" class="link">ボーナスリンクはこちら</a>
+</div>
+
+<div id="completionMessage" class="message hidden">
+    おめでとうございます！すべてのアクションが完了しました。
 </div>
 
 <script>
@@ -69,28 +78,29 @@
 
     // アクセス状況に応じて表示を更新
     if (accessA) {
-        document.getElementById("statusA").textContent = "A: 確認済み";
-        document.getElementById("statusA").classList.replace("missing", "collected");
+        document.getElementById("statusA").textContent = "アクション 1: 完了";
+        document.getElementById("statusA").classList.replace("pending", "completed");
     }
 
     if (accessBB) {
-        document.getElementById("statusBB").textContent = "BB: 確認済み";
-        document.getElementById("statusBB").classList.replace("missing", "collected");
+        document.getElementById("statusBB").textContent = "アクション 2: 完了";
+        document.getElementById("statusBB").classList.replace("pending", "completed");
     }
 
     if (accessCCC) {
-        document.getElementById("statusCCC").textContent = "CCC: 確認済み";
-        document.getElementById("statusCCC").classList.replace("missing", "collected");
+        document.getElementById("statusCCC").textContent = "アクション 3: 完了";
+        document.getElementById("statusCCC").classList.replace("pending", "completed");
     }
 
     if (accessD) {
-        document.getElementById("statusD").textContent = "D: 確認済み";
-        document.getElementById("statusD").classList.replace("missing", "collected");
+        document.getElementById("statusD").textContent = "アクション 4: 完了";
+        document.getElementById("statusD").classList.replace("pending", "completed");
     }
 
-    // 全てのページからのアクセスが確認された場合、リンクを表示
+    // すべてのアクションが完了した場合、リンクとメッセージを表示
     if (accessA && accessBB && accessCCC && accessD) {
         document.getElementById("bonusLink").classList.remove("hidden");
+        document.getElementById("completionMessage").classList.remove("hidden");
     }
 </script>
 
