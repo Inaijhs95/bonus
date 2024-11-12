@@ -11,6 +11,7 @@
             align-items: center;
             height: 100vh;
             background-color: #1a1a1a;
+            overflow: hidden;
         }
         .container {
             position: relative;
@@ -21,14 +22,10 @@
             position: absolute;
             width: 150px;
             height: 150px;
-            background-image: url('');
+            background-image: url('riopg.png');
             background-size: cover;
             cursor: pointer;
-            transition: transform 0.2s;
-            display: none; /* 初期状態は非表示 */
-        }
-        .stone:hover {
-            transform: scale(1.1);
+            display: none;
         }
         #stoneA {
             top: 0;
@@ -50,6 +47,38 @@
             right: 0;
             transform: translateY(-50%);
         }
+        .light-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 2px solid rgba(255, 255, 100, 0.8);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 1s ease;
+        }
+        .light-line {
+            position: absolute;
+            background: rgba(255, 255, 100, 0.8);
+            opacity: 0;
+            transition: opacity 1s ease, width 1s ease, height 1s ease;
+        }
+        #lineHorizontal {
+            top: 50%;
+            left: 0;
+            width: 0;
+            height: 2px;
+            transform: translateY(-50%);
+        }
+        #lineVertical {
+            left: 50%;
+            top: 0;
+            width: 2px;
+            height: 0;
+            transform: translateX(-50%);
+        }
         .hidden-link {
             position: absolute;
             top: 50%;
@@ -58,7 +87,7 @@
             font-size: 1.5em;
             color: #ffd700;
             text-decoration: none;
-            display: none;
+            opacity: 0;
         }
     </style>
 </head>
@@ -70,7 +99,12 @@
     <div id="stoneC" class="stone"></div>
     <div id="stoneD" class="stone"></div>
 
-    <a id="hiddenLink" class="hidden-link" href="https://inaijhs95.github.io/bonus">隠しリンクはこちら</a>
+    <!-- 光の十字エフェクト -->
+    <div id="lightEffect" class="light-effect"></div>
+    <div id="lineHorizontal" class="light-line"></div>
+    <div id="lineVertical" class="light-line"></div>
+
+    <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F">隠しリンクはこちら</a>
 </div>
 
 <script>
@@ -98,31 +132,31 @@
         const accessC = localStorage.getItem('access_CCC') === 'true';
         const accessD = localStorage.getItem('access_D') === 'true';
 
-        // アクセス済みの石板に画像を設定して表示
-        if (accessA) {
-            const stoneA = document.getElementById('stoneA');
-            stoneA.style.display = 'block';
-            stoneA.style.backgroundImage = "url('riopg.png')";
-        }
-        if (accessB) {
-            const stoneB = document.getElementById('stoneB');
-            stoneB.style.display = 'block';
-            stoneB.style.backgroundImage = "url('riopg.png')";
-        }
-        if (accessC) {
-            const stoneC = document.getElementById('stoneC');
-            stoneC.style.display = 'block';
-            stoneC.style.backgroundImage = "url('riopg.png')";
-        }
-        if (accessD) {
-            const stoneD = document.getElementById('stoneD');
-            stoneD.style.display = 'block';
-            stoneD.style.backgroundImage = "url('riopg.png')";
-        }
+        // アクセス済みの石板を表示
+        if (accessA) document.getElementById('stoneA').style.display = 'block';
+        if (accessB) document.getElementById('stoneB').style.display = 'block';
+        if (accessC) document.getElementById('stoneC').style.display = 'block';
+        if (accessD) document.getElementById('stoneD').style.display = 'block';
 
-        // すべての石板が表示された場合、隠しリンクを表示
+        // すべての石板が表示された場合、光の十字エフェクトを表示
         if (accessA && accessB && accessC && accessD) {
-            document.getElementById('hiddenLink').style.display = 'block';
+            const lightEffect = document.getElementById('lightEffect');
+            const lineHorizontal = document.getElementById('lineHorizontal');
+            const lineVertical = document.getElementById('lineVertical');
+
+            // 光のエフェクトを表示
+            lightEffect.style.width = '200px';
+            lightEffect.style.height = '200px';
+            lightEffect.style.opacity = '1';
+
+            // 十字の光の線を表示
+            lineHorizontal.style.width = '100%';
+            lineHorizontal.style.opacity = '1';
+            lineVertical.style.height = '100%';
+            lineVertical.style.opacity = '1';
+
+            // 中央に隠しリンクを表示
+            document.getElementById('hiddenLink').style.opacity = '1';
         }
     }
 
@@ -135,4 +169,3 @@
 
 </body>
 </html>
-
