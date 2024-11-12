@@ -17,6 +17,7 @@
             position: relative;
             width: 600px;
             height: 600px;
+            z-index: 1;
         }
         .stone {
             position: absolute;
@@ -26,7 +27,7 @@
             background-size: cover;
             cursor: pointer;
             display: none;
-            z-index: 1;
+            z-index: 2;
         }
         #stoneA { top: 0; left: 50%; transform: translateX(-50%); }
         #stoneB { bottom: 0; left: 50%; transform: translateX(-50%); }
@@ -40,7 +41,7 @@
             background: rgba(255, 255, 100, 0.8);
             border-radius: 50%;
             opacity: 0;
-            z-index: 0;
+            z-index: 3;
             animation: moveParticle 2s infinite;
         }
 
@@ -65,7 +66,7 @@
             width: 100px;
             height: 100px;
             transform: translate(-50%, -50%);
-            z-index: 2;
+            z-index: 4;
             background-color: rgba(0, 0, 0, 0); /* 見えないがタップ可能 */
         }
     </style>
@@ -97,43 +98,29 @@
         const urlParams = new URLSearchParams(window.location.search);
         const source = urlParams.get('source');
 
-        // アクセス元に応じてローカルストレージに記録
-        if (source === 'A') {
-            localStorage.setItem('access_A', 'true');
-        } else if (source === 'B') {
-            localStorage.setItem('access_BB', 'true');
-        } else if (source === 'C') {
-            localStorage.setItem('access_CCC', 'true');
-        } else if (source === 'D') {
-            localStorage.setItem('access_D', 'true');
-        }
+        if (source === 'A') localStorage.setItem('access_A', 'true');
+        if (source === 'B') localStorage.setItem('access_BB', 'true');
+        if (source === 'C') localStorage.setItem('access_CCC', 'true');
+        if (source === 'D') localStorage.setItem('access_D', 'true');
     }
 
-    // 石板の表示状態を確認
     function checkStoneVisibility() {
         const accessA = localStorage.getItem('access_A') === 'true';
         const accessB = localStorage.getItem('access_BB') === 'true';
         const accessC = localStorage.getItem('access_CCC') === 'true';
         const accessD = localStorage.getItem('access_D') === 'true';
 
-        // アクセス済みの石板を表示
         if (accessA) document.getElementById('stoneA').style.display = 'block';
         if (accessB) document.getElementById('stoneB').style.display = 'block';
         if (accessC) document.getElementById('stoneC').style.display = 'block';
         if (accessD) document.getElementById('stoneD').style.display = 'block';
 
-        // すべての石板が表示された場合、粒のアニメーションを開始
         if (accessA && accessB && accessC && accessD) {
-            document.querySelectorAll('.beam-particle').forEach(particle => {
-                particle.style.opacity = '1';
-            });
+            document.querySelectorAll('.beam-particle').forEach(p => p.style.opacity = '1');
         }
     }
 
-    // ページ読み込み時にクエリパラメータを確認してアクセスを記録
     recordAccess();
-
-    // ページ読み込み時に石板の表示状態を確認
     checkStoneVisibility();
 </script>
 
