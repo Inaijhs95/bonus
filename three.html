@@ -8,7 +8,7 @@
         body {
             margin: 0;
             overflow: hidden;
-            background-color: #1a1a1a;
+            background-color: #f0f0f0; /* 背景色を明るく設定 */
         }
     </style>
 </head>
@@ -23,14 +23,22 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
+    // 背景色を設定
+    renderer.setClearColor(0xf0f0f0);
+
     // 球体オブジェクトの作成
     const geometry = new THREE.SphereGeometry(1, 32, 32);
-    const material = new THREE.MeshBasicMaterial({ color: 0xffcc00 });
+    const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
     const sphere = new THREE.Mesh(geometry, material);
     scene.add(sphere);
 
-    // カメラの位置を設定
-    camera.position.z = 5;
+    // カメラの位置を調整
+    camera.position.z = 3;
+
+    // ライトを追加
+    const light = new THREE.PointLight(0xffffff, 1);
+    light.position.set(5, 5, 5);
+    scene.add(light);
 
     // アニメーション関数
     function animate() {
