@@ -3,143 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>プレミアムボーナスページ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <title>石板の隠しリンク</title>
     <style>
         body {
-            font-family: 'Noto Sans JP', sans-serif;
-            background: linear-gradient(180deg, #0d0d0d, #1a1a1a);
-            color: #e0e0e0;
-            text-align: center;
-            padding: 40px;
-            margin: 0;
-            overflow-y: scroll;
-        }
-        h1 {
-            font-size: 2.8em;
-            color: #ffd700;
-        }
-        p {
-            font-size: 1.2em;
-            color: #bbb;
-            margin-bottom: 30px;
-        }
-        .status {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            align-items: center;
+            height: 100vh;
+            background-color: #1a1a1a;
         }
-        .status-item {
-            padding: 20px;
-            border-radius: 15px;
-            width: 200px;
-            background: rgba(255, 255, 255, 0.1);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: #fff;
-            backdrop-filter: blur(15px);
-            transition: transform 0.6s;
+        .container {
+            position: relative;
+            width: 600px;
+            height: 600px;
         }
-        .status-item:hover {
-            transform: scale(1.05);
+        .stone {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-image: url('https://via.placeholder.com/150.jpg');
+            background-size: cover;
+            cursor: pointer;
+            transition: transform 0.2s;
         }
-        .completed {
-            background: rgba(41, 182, 246, 0.3);
-            color: #29b6f6;
+        .stone:hover {
+            transform: scale(1.1);
         }
-        .hidden {
-            display: none;
+        #stoneA {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .link {
-            display: inline-block;
-            font-size: 1.6em;
-            padding: 15px 35px;
-            color: #0d0d0d;
-            background-color: #ffd700;
-            border-radius: 12px;
-            margin-top: 40px;
-            text-decoration: none;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+        #stoneB {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
         }
-        .link:hover {
-            background-color: #ffe033;
+        #stoneC {
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
         }
-        .message {
+        #stoneD {
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+        }
+        .hidden-link {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             font-size: 1.5em;
-            color: #ff7043;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
-        }
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
+            color: #ffd700;
+            text-decoration: none;
+            display: none;
         }
     </style>
 </head>
 <body>
 
-<h1>プレミアムボーナスページ</h1>
-<p>4つのアクションを完了すると、特別なリンクが解放されます。</p>
+<div class="container">
+    <div id="stoneA" class="stone" onclick="markLinkAccessed('access_A')"></div>
+    <div id="stoneB" class="stone" onclick="markLinkAccessed('access_BB')"></div>
+    <div id="stoneC" class="stone" onclick="markLinkAccessed('access_CCC')"></div>
+    <div id="stoneD" class="stone" onclick="markLinkAccessed('access_D')"></div>
 
-<div class="status">
-    <div id="statusA" class="status-item">アクション 1: 未完了</div>
-    <div id="statusBB" class="status-item">アクション 2: 未完了</div>
-    <div id="statusCCC" class="status-item">アクション 3: 未完了</div>
-    <div id="statusD" class="status-item">アクション 4: 未完了</div>
-</div>
-
-<div id="bonusLink" class="hidden">
-    <a href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F" class="link">ボーナスリンクはこちら</a>
-</div>
-
-<div id="completionMessage" class="message hidden">
-    🎉 すべてのアクションが完了しました！ 🎉
+    <a id="hiddenLink" class="hidden-link" href="https://inaijhs95.github.io/bonus">隠しリンクはこちら</a>
 </div>
 
 <script>
-    // 初期状態でリンクとメッセージを隠す
-    document.getElementById("bonusLink").classList.add("hidden");
-    document.getElementById("completionMessage").classList.add("hidden");
-
-    // 各ページからのアクセス状況を確認
-    const accessA = localStorage.getItem("access_A") === "true";
-    const accessBB = localStorage.getItem("access_BB") === "true";
-    const accessCCC = localStorage.getItem("access_CCC") === "true";
-    const accessD = localStorage.getItem("access_D") === "true";
-
-    // アクション 1 の更新
-    if (accessA) {
-        document.getElementById("statusA").textContent = "systemError : 達成";
-        document.getElementById("statusA").classList.add("completed");
+    // 石板のクリック状況をローカルストレージに保存
+    function markLinkAccessed(key) {
+        localStorage.setItem(key, 'true');
+        alert(`${key} が記録されました！`);
+        checkAllAccess();
     }
 
-    // アクション 2 の更新
-    if (accessBB) {
-        document.getElementById("statusBB").textContent = "BrandSale : 達成";
-        document.getElementById("statusBB").classList.add("completed");
+    // すべての石板がクリックされた場合、隠しリンクを表示
+    function checkAllAccess() {
+        const accessA = localStorage.getItem('access_A') === 'true';
+        const accessBB = localStorage.getItem('access_BB') === 'true';
+        const accessCCC = localStorage.getItem('access_CCC') === 'true';
+        const accessD = localStorage.getItem('access_D') === 'true';
+
+        if (accessA && accessBB && accessCCC && accessD) {
+            document.getElementById('hiddenLink').style.display = 'block';
+        }
     }
 
-    // アクション 3 の更新
-    if (accessCCC) {
-        document.getElementById("statusCCC").textContent = "300K Campaign : 達成";
-        document.getElementById("statusCCC").classList.add("completed");
-    }
-
-    // アクション 4 の更新
-    if (accessD) {
-        document.getElementById("statusD").textContent = "Horse Racing Predictions: 達成";
-        document.getElementById("statusD").classList.add("completed");
-    }
-
-    // すべてのアクションが完了した場合のみリンクとメッセージを表示
-    if (accessA && accessBB && accessCCC && accessD) {
-        document.getElementById("bonusLink").classList.remove("hidden");
-        document.getElementById("completionMessage").classList.remove("hidden");
-    }
+    // ページ読み込み時にアクセス状況を確認
+    checkAllAccess();
 </script>
 
 </body>
 </html>
-
