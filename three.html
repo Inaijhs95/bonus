@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>中央輝きエフェクト</title>
+    <title>十字の光エフェクト</title>
     <style>
         body {
             margin: 0;
@@ -24,63 +24,43 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // グローエフェクトの設定
-    const glowGeometry = new THREE.CircleGeometry(5, 32);
+    // 光のラインの設定
+    const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.6 });
+    const horizontalGeometry = new THREE.PlaneGeometry(10, 0.1);
+    const verticalGeometry = new THREE.PlaneGeometry(0.1, 10);
+
+    const horizontalLine = new THREE.Mesh(horizontalGeometry, lineMaterial);
+    const verticalLine = new THREE.Mesh(verticalGeometry, lineMaterial);
+
+    scene.add(horizontalLine);
+    scene.add(verticalLine);
+
+    // 放射エフェクトの設定
+    const glowGeometry = new THREE.CircleGeometry(1, 32);
     const glowMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffd700,
+        color: 0xffff00,
         transparent: true,
-        opacity: 0.7
+        opacity: 0.5
     });
     const glow = new THREE.Mesh(glowGeometry, glowMaterial);
     glow.position.set(0, 0, 0);
+    glow.scale.set(2, 2, 1);
     scene.add(glow);
 
-    // 光の放射エフェクト (スプライト)
-    const spriteMaterial = new THREE.SpriteMaterial({
-        map: new THREE.TextureLoader().load('https://threejsfundamentals.org/threejs/resources/images/disc.png'),
-        color: 0xffff00,
-        transparent: true,
-        opacity: 0.8
-    });
-    const sprite = new THREE.Sprite(spriteMaterial);
-    sprite.scale.set(10, 10, 1);
-    scene.add(sprite);
-
-    // パーティクルエフェクトの設定
-    const particles = [];
-    const particleGeometry = new THREE.BufferGeometry();
-    const particleCount = 500;
-    const positions = [];
-
-    for (let i = 0; i < particleCount; i++) {
-        const x = (Math.random() - 0.5) * 10;
-        const y = (Math.random() - 0.5) * 10;
-        const z = (Math.random() - 0.5) * 10;
-        positions.push(x, y, z);
-    }
-
-    particleGeometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
-    const particleMaterial = new THREE.PointsMaterial({ color: 0xffff00, size: 0.1 });
-    const particleSystem = new THREE.Points(particleGeometry, particleMaterial);
-    scene.add(particleSystem);
-
     // カメラ位置を設定
-    camera.position.z = 20;
+    camera.position.z = 10;
 
     // アニメーション関数
     function animate() {
         requestAnimationFrame(animate);
 
-        // グローのアニメーション
-        glow.scale.x = 1 + Math.sin(Date.now() * 0.002) * 0.2;
-        glow.scale.y = 1 + Math.sin(Date.now() * 0.002) * 0.2;
+        // 光のラインのアニメーション
+        horizontalLine.scale.x = 1 + Math.sin(Date.now() * 0.002) * 0.1;
+        verticalLine.scale.y = 1 + Math.sin(Date.now() * 0.002) * 0.1;
 
-        // スプライトの回転
-        sprite.rotation += 0.01;
-
-        // パーティクルのアニメーション
-        particleSystem.rotation.y += 0.002;
-        particleSystem.rotation.x += 0.001;
+        // 放射エフェクトのアニメーション
+        glow.scale.x = 2 + Math.sin(Date.now() * 0.002) * 0.3;
+        glow.scale.y = 2 + Math.sin(Date.now() * 0.002) * 0.3;
 
         renderer.render(scene, camera);
     }
