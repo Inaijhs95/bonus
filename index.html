@@ -49,49 +49,35 @@
         }
         .light-background {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 255, 100, 0) 20%, rgba(255, 255, 100, 0.5) 50%, rgba(255, 255, 100, 0) 80%);
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255, 255, 100, 0) 40%, rgba(255, 255, 100, 0.5) 70%, rgba(255, 255, 100, 0) 100%);
             opacity: 0;
+            transform: translate(-50%, -50%);
             transition: opacity 1s ease;
             z-index: -1;
         }
         .light-line {
             position: absolute;
-            width: 2px;
             background: rgba(255, 255, 100, 0.8);
             opacity: 0;
             transition: opacity 1s ease, width 1s ease, height 1s ease;
         }
-        #lineA {
-            top: 75px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            transform: translateX(-50%);
-        }
-        #lineB {
-            bottom: 75px;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            transform: translateX(-50%);
-        }
-        #lineC {
+        #lineHorizontal {
             top: 50%;
-            left: 75px;
-            width: 2px;
-            height: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
             transform: translateY(-50%);
         }
-        #lineD {
-            top: 50%;
-            right: 75px;
-            width: 2px;
+        #lineVertical {
+            left: 50%;
+            top: 0;
+            width: 3px;
             height: 0;
-            transform: translateY(-50%);
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -107,10 +93,8 @@
     <div id="lightBackground" class="light-background"></div>
 
     <!-- 光のライン -->
-    <div id="lineA" class="light-line"></div>
-    <div id="lineB" class="light-line"></div>
-    <div id="lineC" class="light-line"></div>
-    <div id="lineD" class="light-line"></div>
+    <div id="lineHorizontal" class="light-line"></div>
+    <div id="lineVertical" class="light-line"></div>
 
     <a id="hiddenLink" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
 </div>
@@ -149,21 +133,18 @@
         // すべての石板が表示された場合、光のエフェクトを表示
         if (accessA && accessB && accessC && accessD) {
             const lightBackground = document.getElementById('lightBackground');
-            const lines = ['lineA', 'lineB', 'lineC', 'lineD'];
+            const lineHorizontal = document.getElementById('lineHorizontal');
+            const lineVertical = document.getElementById('lineVertical');
 
             // 光の背景エフェクトを表示
             lightBackground.style.opacity = '1';
 
-            // 光のラインを表示
-            lines.forEach(line => {
-                const element = document.getElementById(line);
-                element.style.opacity = '1';
-                if (line === 'lineA' || line === 'lineB') {
-                    element.style.width = '100%';
-                } else {
-                    element.style.height = '100%';
-                }
-            });
+            // 水平と垂直の光のラインを表示
+            lineHorizontal.style.opacity = '1';
+            lineHorizontal.style.width = '100%';
+
+            lineVertical.style.opacity = '1';
+            lineVertical.style.height = '100%';
         }
     }
 
