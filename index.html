@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>石板の隠しリンク</title>
+    <title>ラフテルへ</title>
     <style>
         body {
             display: flex;
@@ -26,6 +26,7 @@
             background-size: cover;
             cursor: pointer;
             display: none;
+            z-index: 1;
         }
         #stoneA { top: 0; left: 50%; transform: translateX(-50%); }
         #stoneB { bottom: 0; left: 50%; transform: translateX(-50%); }
@@ -39,7 +40,7 @@
             background: rgba(255, 255, 100, 0.8);
             border-radius: 50%;
             opacity: 0;
-            z-index: -1;
+            z-index: 0; /* 石板の背面、背景の前に配置 */
         }
         @keyframes moveToCenter {
             0% { opacity: 1; transform: scale(1); }
@@ -57,7 +58,7 @@
             width: 100px;
             height: 100px;
             transform: translate(-50%, -50%);
-            z-index: 1;
+            z-index: 2;
             background-color: rgba(0, 0, 0, 0); /* 見えないがタップ可能 */
         }
     </style>
