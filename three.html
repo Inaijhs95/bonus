@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>十字の光エフェクト</title>
+    <title>レーザーと衝撃波エフェクト</title>
     <style>
         body {
             margin: 0;
@@ -24,43 +24,72 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // 光のラインの設定
-    const lineMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00, transparent: true, opacity: 0.6 });
-    const horizontalGeometry = new THREE.PlaneGeometry(10, 0.1);
-    const verticalGeometry = new THREE.PlaneGeometry(0.1, 10);
+    // レーザーのマテリアルとジオメトリ
+    const laserMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+    const laserGeometry = new THREE.PlaneGeometry(0.1, 5);
 
-    const horizontalLine = new THREE.Mesh(horizontalGeometry, lineMaterial);
-    const verticalLine = new THREE.Mesh(verticalGeometry, lineMaterial);
+    // 上下左右のレーザーを作成
+    const laserUp = new THREE.Mesh(laserGeometry, laserMaterial);
+    const laserDown = new THREE.Mesh(laserGeometry, laserMaterial);
+    const laserLeft = new THREE.Mesh(laserGeometry, laserMaterial);
+    const laserRight = new THREE.Mesh(laserGeometry, laserMaterial);
 
-    scene.add(horizontalLine);
-    scene.add(verticalLine);
+    // レーザーの初期位置
+    laserUp.position.set(0, 3, 0);
+    laserDown.position.set(0, -3, 0);
+    laserLeft.position.set(-3, 0, 0);
+    laserRight.position.set(3, 0, 0);
 
-    // 放射エフェクトの設定
-    const glowGeometry = new THREE.CircleGeometry(1, 32);
-    const glowMaterial = new THREE.MeshBasicMaterial({
+    // レーザーをシーンに追加
+    scene.add(laserUp, laserDown, laserLeft, laserRight);
+
+    // 衝撃波エフェクトの設定
+    const shockwaveGeometry = new THREE.RingGeometry(0.1, 0.2, 32);
+    const shockwaveMaterial = new THREE.MeshBasicMaterial({
         color: 0xffff00,
         transparent: true,
-        opacity: 0.5
+        opacity: 0.8
     });
-    const glow = new THREE.Mesh(glowGeometry, glowMaterial);
-    glow.position.set(0, 0, 0);
-    glow.scale.set(2, 2, 1);
-    scene.add(glow);
+    const shockwave = new THREE.Mesh(shockwaveGeometry, shockwaveMaterial);
+    shockwave.position.set(0, 0, 0);
+    shockwave.visible = false;
+    scene.add(shockwave);
 
     // カメラ位置を設定
     camera.position.z = 10;
 
-    // アニメーション関数
+    // レーザーのアニメーション
+    let laserSpeed = 0.05;
+    let shockwaveActive = false;
+
     function animate() {
         requestAnimationFrame(animate);
 
-        // 光のラインのアニメーション
-        horizontalLine.scale.x = 1 + Math.sin(Date.now() * 0.002) * 0.1;
-        verticalLine.scale.y = 1 + Math.sin(Date.now() * 0.002) * 0.1;
+        // レーザーが中央に向かって進む
+        laserUp.position.y -= laserSpeed;
+        laserDown.position.y += laserSpeed;
+        laserLeft.position.x += laserSpeed;
+        laserRight.position.x -= laserSpeed;
 
-        // 放射エフェクトのアニメーション
-        glow.scale.x = 2 + Math.sin(Date.now() * 0.002) * 0.3;
-        glow.scale.y = 2 + Math.sin(Date.now() * 0.002) * 0.3;
+        // レーザーが中央でぶつかると衝撃波を表示
+        if (!shockwaveActive && laserUp.position.y <= 0) {
+            shockwave.visible = true;
+            shockwave.scale.set(0.1, 0.1, 1);
+            shockwaveActive = true;
+        }
+
+        // 衝撃波のアニメーション
+        if (shockwaveActive) {
+            shockwave.scale.x += 0.1;
+            shockwave.scale.y += 0.1;
+            shockwave.material.opacity -= 0.02;
+
+            // 衝撃波が消えるタイミング
+            if (shockwave.material.opacity <= 0) {
+                shockwave.visible = false;
+                shockwaveActive = false;
+            }
+        }
 
         renderer.render(scene, camera);
     }
