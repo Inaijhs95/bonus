@@ -74,6 +74,23 @@
 </div>
 
 <script>
+    // URLからクエリパラメータを取得し、アクセスを記録
+    function recordAccess() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const source = urlParams.get('source');
+
+        // アクセス元に応じてローカルストレージに記録
+        if (source === 'A') {
+            localStorage.setItem('access_A', 'true');
+        } else if (source === 'B') {
+            localStorage.setItem('access_BB', 'true');
+        } else if (source === 'C') {
+            localStorage.setItem('access_CCC', 'true');
+        } else if (source === 'D') {
+            localStorage.setItem('access_D', 'true');
+        }
+    }
+
     // 石板の表示状態を確認
     function checkStoneVisibility() {
         const accessA = localStorage.getItem('access_A') === 'true';
@@ -92,6 +109,9 @@
             document.getElementById('hiddenLink').style.display = 'block';
         }
     }
+
+    // ページ読み込み時にクエリパラメータを確認してアクセスを記録
+    recordAccess();
 
     // ページ読み込み時に石板の表示状態を確認
     checkStoneVisibility();
