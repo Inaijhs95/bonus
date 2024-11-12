@@ -51,33 +51,42 @@
             position: absolute;
             top: 50%;
             left: 50%;
-            width: 150px;
-            height: 150px;
-            background: radial-gradient(circle, rgba(255, 255, 100, 0) 40%, rgba(255, 255, 100, 0.5) 70%, rgba(255, 255, 100, 0) 100%);
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(255, 255, 100, 0) 40%, rgba(255, 255, 100, 0.8) 70%, rgba(255, 255, 100, 0) 100%);
             opacity: 0;
             transform: translate(-50%, -50%);
             transition: opacity 1s ease;
             z-index: -1;
         }
-        .light-line {
+        .light-ray {
             position: absolute;
-            background: rgba(255, 255, 100, 0.8);
-            opacity: 0;
-            transition: opacity 1s ease, width 1s ease, height 1s ease;
-        }
-        #lineHorizontal {
             top: 50%;
-            left: 0;
-            width: 0;
-            height: 3px;
-            transform: translateY(-50%);
-        }
-        #lineVertical {
             left: 50%;
-            top: 0;
-            width: 3px;
-            height: 0;
-            transform: translateX(-50%);
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 10%, rgba(255, 255, 255, 0) 70%);
+            opacity: 0;
+            transform: translate(-50%, -50%) rotate(0deg);
+            animation: rotateRay 5s infinite linear;
+            z-index: -2;
+        }
+        @keyframes rotateRay {
+            from {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+            to {
+                transform: translate(-50%, -50%) rotate(360deg);
+            }
+        }
+        .hidden-link {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1em;
+            color: rgba(0, 0, 0, 0); /* 完全に透過 */
+            text-decoration: none;
         }
     </style>
 </head>
@@ -92,11 +101,10 @@
     <!-- 光の背景エフェクト -->
     <div id="lightBackground" class="light-background"></div>
 
-    <!-- 光のライン -->
-    <div id="lineHorizontal" class="light-line"></div>
-    <div id="lineVertical" class="light-line"></div>
+    <!-- 光の放射エフェクト -->
+    <div id="lightRay" class="light-ray"></div>
 
-    <a id="hiddenLink" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
+    <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F">隠しリンク</a>
 </div>
 
 <script>
@@ -132,19 +140,8 @@
 
         // すべての石板が表示された場合、光のエフェクトを表示
         if (accessA && accessB && accessC && accessD) {
-            const lightBackground = document.getElementById('lightBackground');
-            const lineHorizontal = document.getElementById('lineHorizontal');
-            const lineVertical = document.getElementById('lineVertical');
-
-            // 光の背景エフェクトを表示
-            lightBackground.style.opacity = '1';
-
-            // 水平と垂直の光のラインを表示
-            lineHorizontal.style.opacity = '1';
-            lineHorizontal.style.width = '100%';
-
-            lineVertical.style.opacity = '1';
-            lineVertical.style.height = '100%';
+            document.getElementById('lightBackground').style.opacity = '1';
+            document.getElementById('lightRay').style.opacity = '0.6';
         }
     }
 
