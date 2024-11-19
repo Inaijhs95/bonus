@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.152.0/build/three.min.js"></script>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>石板の隠しリンク</title>
@@ -19,17 +17,16 @@
             position: relative;
             width: 600px;
             height: 600px;
-            z-index: 1;
         }
         .stone {
             position: absolute;
             width: 150px;
             height: 150px;
-            background-image: url('riopg.png');
+            background-image: url('riopg.png'); /* 石板画像 */
             background-size: cover;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6); /* 石板の影 */
             cursor: pointer;
             display: none;
-            z-index: 2;
         }
         #stoneA { top: 0; left: 50%; transform: translateX(-50%); }
         #stoneB { bottom: 0; left: 50%; transform: translateX(-50%); }
@@ -43,14 +40,16 @@
             width: 100px;
             height: 100px;
             transform: translate(-50%, -50%);
-            z-index: 4;
-            background-color: rgba(0, 0, 0, 0); /* 見えないがタップ可能 */
+            background-image: url('treasure.png'); /* 宝箱画像 */
+            background-size: cover;
+            cursor: pointer;
+            display: none; /* 全ての石板が表示されたときに表示 */
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="threeContainer">
+<div class="container">
     <div id="stoneA" class="stone"></div>
     <div id="stoneB" class="stone"></div>
     <div id="stoneC" class="stone"></div>
@@ -80,88 +79,16 @@
         if (accessB) document.getElementById('stoneB').style.display = 'block';
         if (accessC) document.getElementById('stoneC').style.display = 'block';
         if (accessD) document.getElementById('stoneD').style.display = 'block';
+
+        // 全ての石板が表示されたら隠しリンクを表示
+        if (accessA && accessB && accessC && accessD) {
+            document.getElementById('hiddenLink').style.display = 'block';
+        }
     }
 
     recordAccess();
     checkStoneVisibility();
 </script>
 
-<script>
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ antialias: true });
-    const container = document.getElementById('threeContainer');
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    container.appendChild(renderer.domElement);
-
-    const laserMaterial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-    const laserGeometry = new THREE.PlaneGeometry(0.1, 5);
-
-    const laserUp = new THREE.Mesh(laserGeometry, laserMaterial);
-    const laserDown = new THREE.Mesh(laserGeometry, laserMaterial);
-    const laserLeft = new THREE.Mesh(laserGeometry, laserMaterial);
-    const laserRight = new THREE.Mesh(laserGeometry, laserMaterial);
-
-    laserUp.position.set(0, 3, 0);
-    laserDown.position.set(0, -3, 0);
-    laserLeft.position.set(-3, 0, 0);
-    laserRight.position.set(3, 0, 0);
-
-    laserLeft.rotation.z = Math.PI / 2;
-    laserRight.rotation.z = Math.PI / 2;
-
-    scene.add(laserUp, laserDown, laserLeft, laserRight);
-
-    const shockwaveGeometry = new THREE.RingGeometry(0.1, 0.2, 32);
-    const shockwaveMaterial = new THREE.MeshBasicMaterial({
-        color: 0xffff00,
-        transparent: true,
-        opacity: 0.8
-    });
-    const shockwave = new THREE.Mesh(shockwaveGeometry, shockwaveMaterial);
-    shockwave.position.set(0, 0, 0);
-    shockwave.visible = false;
-    scene.add(shockwave);
-
-    camera.position.z = 10;
-
-    let laserSpeed = 0.05;
-    let shockwaveActive = false;
-
-    function animate() {
-        requestAnimationFrame(animate);
-
-        laserUp.position.y -= laserSpeed;
-        laserDown.position.y += laserSpeed;
-        laserLeft.position.x += laserSpeed;
-        laserRight.position.x -= laserSpeed;
-
-        if (!shockwaveActive && laserUp.position.y <= 0) {
-            shockwave.visible = true;
-            shockwave.scale.set(0.1, 0.1, 1);
-            shockwaveActive = true;
-
-            laserUp.visible = false;
-            laserDown.visible = false;
-            laserLeft.visible = false;
-            laserRight.visible = false;
-        }
-
-        if (shockwaveActive) {
-            shockwave.scale.x += 0.2;
-            shockwave.scale.y += 0.2;
-            shockwave.material.opacity -= 0.02;
-
-            if (shockwave.material.opacity <= 0) {
-                shockwave.visible = false;
-                shockwaveActive = false;
-            }
-        }
-
-        renderer.render(scene, camera);
-    }
-
-    animate();
-</script>
-
+</body>
 </html>
