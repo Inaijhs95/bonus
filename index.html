@@ -1,93 +1,167 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>石板の隠しリンク</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #1a1a1a;
-            overflow: hidden;
-        }
-        .container {
-            position: relative;
-            width: 600px;
-            height: 600px;
-        }
-        .stone {
-            position: absolute;
-            width: 150px;
-            height: 150px;
-            background-image: url('riopg.png'); /* 石板画像 */
-            background-size: cover;
-            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6); /* 石板の影 */
-            cursor: pointer;
-            display: none;
-        }
-        #stoneA { top: 0; left: 50%; transform: translateX(-50%); }
-        #stoneB { bottom: 0; left: 50%; transform: translateX(-50%); }
-        #stoneC { top: 50%; left: 0; transform: translateY(-50%); }
-        #stoneD { top: 50%; right: 0; transform: translateY(-50%); }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ゲーム機風ページ</title>
+<style>
+  body {
+    background: #333;
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 
-        .hidden-link {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 100px;
-            height: 100px;
-            transform: translate(-50%, -50%);
-            background-image: url('treasure.png'); /* 宝箱画像 */
-            background-size: cover;
-            cursor: pointer;
-            display: none; /* 全ての石板が表示されたときに表示 */
-        }
-    </style>
+  .game-console {
+    width: 300px;
+    background: #ccc;
+    border: 10px solid #444;
+    border-radius: 15px;
+    box-shadow: 0 0 20px #000;
+    margin-top: 50px;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .screen {
+    background: #222;
+    width: 100%;
+    height: 150px;
+    border: 5px solid #111;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+  }
+
+  .controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dpad {
+    display: grid;
+    grid-template-columns: 40px 40px 40px;
+    grid-template-rows: 40px 40px 40px;
+    gap: 3px;
+  }
+
+  .dpad button {
+    width: 40px;
+    height: 40px;
+    background: #444;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+  }
+
+  .dpad button:active {
+    background: #666;
+  }
+
+  /* 十字キーの矢印配置 */
+  .dpad button:nth-child(2)::before {
+    content: "▲";
+  }
+  .dpad button:nth-child(4)::before {
+    content: "◀";
+  }
+  .dpad button:nth-child(5) {
+    background: #333; /* 中央キーは無効化 */
+    pointer-events: none;
+  }
+  .dpad button:nth-child(6)::before {
+    content: "▶";
+  }
+  .dpad button:nth-child(8)::before {
+    content: "▼";
+  }
+
+  .ab-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .ab-buttons button {
+    width: 50px;
+    height: 50px;
+    background: #444;
+    border: none;
+    border-radius: 25px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .ab-buttons button:active {
+    background: #666;
+  }
+
+  .label {
+    text-align: center;
+    color: #fff;
+    margin-top: 30px;
+    font-size: 14px;
+  }
+</style>
 </head>
 <body>
 
-<div class="container">
-    <div id="stoneA" class="stone"></div>
-    <div id="stoneB" class="stone"></div>
-    <div id="stoneC" class="stone"></div>
-    <div id="stoneD" class="stone"></div>
-
-    <a id="hiddenLink" class="hidden-link" href="https://line.me/R/oaMessage/%40778unfqy/bonus%E3%82%B5%E3%82%A4%E3%83%88%E3%81%AB%E3%82%A2%E3%82%AF%E3%82%BB%E3%82%B9%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F"></a>
+<div class="game-console">
+  <div class="screen"></div>
+  <div class="controls">
+    <div class="dpad">
+      <button data-key="none"></button>
+      <button data-key="up"></button>
+      <button data-key="none"></button>
+      <button data-key="left"></button>
+      <button data-key="center" disabled></button>
+      <button data-key="right"></button>
+      <button data-key="none"></button>
+      <button data-key="down"></button>
+      <button data-key="none"></button>
+    </div>
+    <div class="ab-buttons">
+      <button data-key="b">B</button>
+      <button data-key="a">A</button>
+    </div>
+  </div>
 </div>
 
+<div class="label">特定のコマンド：上→下→左→右→B→A</div>
+
 <script>
-    function recordAccess() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const source = urlParams.get('source');
+  // 正解シーケンス
+  const correctSequence = ['up', 'down', 'left', 'right', 'b', 'a'];
+  let inputSequence = [];
 
-        if (source === 'A') localStorage.setItem('access_A', 'true');
-        if (source === 'B') localStorage.setItem('access_BB', 'true');
-        if (source === 'C') localStorage.setItem('access_CCC', 'true');
-        if (source === 'D') localStorage.setItem('access_D', 'true');
-    }
+  const buttons = document.querySelectorAll('button[data-key]');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.getAttribute('data-key');
+      if (key && key !== 'none' && key !== 'center') {
+        inputSequence.push(key);
 
-    function checkStoneVisibility() {
-        const accessA = localStorage.getItem('access_A') === 'true';
-        const accessB = localStorage.getItem('access_BB') === 'true';
-        const accessC = localStorage.getItem('access_CCC') === 'true';
-        const accessD = localStorage.getItem('access_D') === 'true';
-
-        if (accessA) document.getElementById('stoneA').style.display = 'block';
-        if (accessB) document.getElementById('stoneB').style.display = 'block';
-        if (accessC) document.getElementById('stoneC').style.display = 'block';
-        if (accessD) document.getElementById('stoneD').style.display = 'block';
-
-        // 全ての石板が表示されたら隠しリンクを表示
-        if (accessA && accessB && accessC && accessD) {
-            document.getElementById('hiddenLink').style.display = 'block';
+        // 入力が正解シーケンスの長さを超えたら先頭を削除
+        if (inputSequence.length > correctSequence.length) {
+          inputSequence.shift();
         }
-    }
 
-    recordAccess();
-    checkStoneVisibility();
+        // シーケンスが正解と一致するか判定
+        if (JSON.stringify(inputSequence) === JSON.stringify(correctSequence)) {
+          // 正解の場合、URLにジャンプ
+          window.location.href = "https://line.me/R/oaMessage/%40778unfqy/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%92%E5%85%A5%E5%8A%9B%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F";
+        }
+      }
+    });
+  });
 </script>
 
 </body>
