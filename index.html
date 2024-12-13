@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>????????</title>
+<title>ゲームコンソール</title>
 <style>
   body {
     background: #333;
@@ -34,6 +34,18 @@
     border-radius: 5px;
     box-sizing: border-box;
     margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Canvas for Tetris */
+  #tetrisCanvas {
+    display: none; /* 初期状態では非表示 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
   }
 
   .controls {
@@ -115,7 +127,9 @@
 <body>
 
 <div class="game-console">
-  <div class="screen"></div>
+  <div class="screen">
+    <canvas id="tetrisCanvas" width="300" height="150"></canvas>
+  </div>
   <div class="controls">
     <div class="dpad">
       <button data-key="none"></button>
@@ -140,6 +154,8 @@
 <script>
   // 正解シーケンス
   const correctSequence = ['up', 'down', 'left', 'right', 'b', 'a'];
+  // テトリスシーケンス
+  const tetrisSequence = ['up', 'up', 'down', 'down'];
   let inputSequence = [];
 
   const buttons = document.querySelectorAll('button[data-key]');
@@ -150,18 +166,53 @@
         inputSequence.push(key);
 
         // 入力が正解シーケンスの長さを超えたら先頭を削除
-        if (inputSequence.length > correctSequence.length) {
+        if (inputSequence.length > Math.max(correctSequence.length, tetrisSequence.length)) {
           inputSequence.shift();
         }
 
-        // シーケンスが正解と一致するか判定
-        if (JSON.stringify(inputSequence) === JSON.stringify(correctSequence)) {
+        // 正解シーケンスと比較
+        if (JSON.stringify(inputSequence.slice(-correctSequence.length)) === JSON.stringify(correctSequence)) {
           // 正解の場合、URLにジャンプ
           window.location.href = "https://line.me/R/oaMessage/%40778unfqy/%E3%82%B3%E3%83%9E%E3%83%B3%E3%83%89%E3%82%92%E5%85%A5%E5%8A%9B%E3%81%97%E3%81%BE%E3%81%97%E3%81%9F";
+        }
+
+        // テトリスシーケンスと比較
+        if (JSON.stringify(inputSequence.slice(-tetrisSequence.length)) === JSON.stringify(tetrisSequence)) {
+          // テトリスを表示
+          showTetris();
         }
       }
     });
   });
+
+  function showTetris() {
+    const canvas = document.getElementById('tetrisCanvas');
+    canvas.style.display = 'block';
+    const ctx = canvas.getContext('2d');
+    
+    // 簡単なテトリスの描画
+    // ※ 完全なテトリスゲームではありません。基本的なブロックの描画例です。
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // ブロックを描画
+    ctx.fillStyle = '#FF0';
+    ctx.fillRect(50, 50, 30, 30);
+    ctx.fillStyle = '#0F0';
+    ctx.fillRect(80, 50, 30, 30);
+    ctx.fillStyle = '#00F';
+    ctx.fillRect(50, 80, 30, 30);
+    ctx.fillStyle = '#F00';
+    ctx.fillRect(80, 80, 30, 30);
+    
+    // メッセージ表示
+    ctx.fillStyle = '#FFF';
+    ctx.font = '16px sans-serif';
+    ctx.fillText('テトリスを開始！', 10, 20);
+    
+    // 実際のテトリスゲームを実装するには、さらに多くのコードが必要です。
+    // ここではデモとして簡単な描画のみを行っています。
+  }
 </script>
 
 </body>
