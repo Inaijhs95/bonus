@@ -122,6 +122,11 @@
     margin-top: 30px;
     font-size: 14px;
   }
+button[data-key="a"] {
+    margin-left: -10px; /* 左に10ピクセル移動 */
+}
+
+  
 </style>
 </head>
 <body>
@@ -143,8 +148,8 @@
       <button data-key="none"></button>
     </div>
     <div class="ab-buttons">
-      <button data-key="b">B</button>
-      <button data-key="a">A</button>
+      <button data-key="b">A</button>
+<button data-key="a">B</button>
     </div>
   </div>
 </div>
@@ -153,7 +158,7 @@
 
 <script>
   // 正解シーケンス
-  const correctSequence = ['up', 'down', 'left', 'right', 'b', 'a'];
+const correctSequence = ['up', 'down', 'left', 'right', 'a', 'b'];
   // テトリスシーケンス
   const tetrisSequence = ['up', 'up', 'down', 'down'];
   let inputSequence = [];
